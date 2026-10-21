@@ -1,0 +1,64 @@
+{
+  "name": "color-picker",
+  "version": "0.2.0",
+  "description": "A local-first Windows screen color picker",
+  "main": "out/main/index.cjs",
+  "author": "Color Picker contributors",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "typecheck": "vue-tsc --noEmit",
+    "build": "npm run typecheck && electron-vite build",
+    "start": "electron .",
+    "electron:install": "node --require ./scripts/electron-mirror.cjs node_modules/electron/install.js",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:smoke": "npm run build && node scripts/smoke.mjs",
+    "test:desktop": "npm run build && node scripts/desktop-pixels.mjs",
+    "pack": "npm run build && electron-builder --config electron-builder.config.cjs --win --dir",
+    "pack:zip": "npm run pack && powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/pack-zip.ps1",
+    "dist": "npm run build && electron-builder --config electron-builder.config.cjs --win nsis",
+    "test:controls": "npm run build && node scripts/picker-controls.mjs"
+  },
+  "build": {
+    "appId": "com.colorpicker.desktop",
+    "productName": "Color Picker",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "resources/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.ico",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  },
+  "dependencies": {
+    "vue": "^3.5.44"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "electron": "^44.9.2",
+    "electron-builder": "26.15.3",
+    "electron-vite": "^6.0.0",
+    "playwright": "^1.64.1",
+    "typescript": "6.0.3",
+    "vite": "^8.3.4",
+    "vue-tsc": "^3.3.13"
+  },
+  "type": "module",
+  "overrides": {
+    "@electron/get": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

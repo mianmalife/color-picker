@@ -147,3 +147,9 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Electron build and test outputs
+out/
+release/
+artifacts/
+.runtime-cache/
